@@ -22,7 +22,6 @@ public class SelectionSort {
      */
     public static void main(String[] args) {
         List<Integer> numberList = numberExtract(MIN, MAX, COLLECTION_SIZE);
-
         System.out.println("선택 정렬 전: " + numberList);
 
         for(int i = 0; i < COLLECTION_SIZE - 1; i++) {
