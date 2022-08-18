@@ -3,6 +3,7 @@ package utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -27,17 +28,14 @@ public final class RandomNumberExtract {
      */
     public static List<Integer> numberExtract(int min, int max, int amount) {
         List<Integer> integers = new ArrayList<>();
-        List<Integer> result;
+        List<Integer> result = new ArrayList<>();
 
-        for (int i = 0; i < amount; i++) {
+        while(result.size() < amount) {
             integers.add(rd.nextInt(max) + min);
             result = integers.stream().distinct().collect(Collectors.toList());
-            if(result.size() == 10) {
-                break;
-            }
         }
 
-        return integers.stream().distinct().collect(Collectors.toList());
+        return result;
     }
 
 }
