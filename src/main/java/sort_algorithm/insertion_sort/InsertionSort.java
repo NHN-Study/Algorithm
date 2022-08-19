@@ -1,5 +1,9 @@
 package sort_algorithm.insertion_sort;
 
+import java.util.List;
+
+import static utils.RandomNumberExtract.numberExtract;
+
 /**
  * 삽입 정렬 알고리즘
  * 삽입 정렬 알고리즘의 정렬 흐름은 다음과 같다
@@ -34,13 +38,67 @@ package sort_algorithm.insertion_sort;
  */
 public class InsertionSort {
 
+    private static final int MIN = 0;
+    private static final int MAX = 50;
+    private static final int COLLECTION_SIZE = 10;
+
     /**
      * 지정한 범위 내의 숫자들을 삽입정렬 방식으로 정렬한다
      *
      * @param args - 프로그램 실행 시 외부로부터 받는 값입니다.
      */
     public static void main(String[] args) {
+        List<Integer> numberList = numberExtract(MIN, MAX, COLLECTION_SIZE);
+        System.out.println("삽입 정렬 전: " + numberList);
 
+        for(int i = 1; i < numberList.size(); i++) {
+            insertionSort(numberList, i);
+        }
+        System.out.println("삽입 정렬 후: " + numberList);
+    }
+
+    private static void insertionSort(List<Integer> numberList, int i) {
+        int temp = numberList.get(i);
+        int k = i - 1;
+
+        while (k >= 0 && numberList.get(k) > temp) { // k번째 인덱스의 값이 i번째 인덱스의 값보다 클 경우
+            numberList.set(k + 1, numberList.get(k)); // k + 1 번째 인덱스의 값을 k번째 인덱스의 값으로 변경
+            k--;
+        }
+        numberList.set(k + 1, temp); // 조건 불충일시, k + 1 번째 인덱스의 값을 i번째 인덱스의 값으로 지정
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
