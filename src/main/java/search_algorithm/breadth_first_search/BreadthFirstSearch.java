@@ -2,6 +2,7 @@ package search_algorithm.breadth_first_search;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Queue;
 
 import static utils.GraphExtract.adjListExtract;
 
@@ -18,15 +19,47 @@ import static utils.GraphExtract.adjListExtract;
  */
 public class BreadthFirstSearch {
 
-    private static final int VERTEX_SIZE = 9; // 정점의 개수 (간선보다 항상 -1)
-    private static final int EDGE_SIZE = 10; // 간선의 개수
-    private static final int START_VERTEX = 1; // 탐색을 시작할 정점의 번호
+    private static final int VERTEX_SIZE = 5; // 정점의 개수
+    private static final int EDGE_SIZE = 5; // 간선의 개수
+    private static final int START_VERTEX = 3; // 탐색을 시작할 정점의 번호
 
+    /**
+     * 입력받은 정보를 바탕으로 생성된 그래프를 너비 우선 탐색 방식으로 탐색하는 메소드입니다.
+     *
+     * @param args - 프로그램 실행 시 외부로부터 받는 값입니다.
+     */
     public static void main(String[] args) {
-        LinkedList<Integer>[] adjList = adjListExtract(VERTEX_SIZE, EDGE_SIZE, START_VERTEX);
-        boolean visited[] = new boolean[VERTEX_SIZE + 1]; // 방문 여부를 검사할 배열
+        LinkedList<Integer>[] adjList = adjListExtract(VERTEX_SIZE, EDGE_SIZE);
+        boolean[] visited = new boolean[VERTEX_SIZE + 1]; // 방문 여부를 검사할 배열
 
-        System.out.println(Arrays.toString(adjList));
+        System.out.println(Arrays.toString(adjList)); // 탐색한 그래프 정보
+
+        System.out.println("BFS - 인접리스트");
+        bfsList(adjList, visited);
+    }
+
+    private static void bfsList(LinkedList<Integer>[] list, boolean[] visited) {
+        Queue<Integer> queue = new LinkedList<>();
+        int vertex;
+        visited[START_VERTEX] = true;
+        queue.add(START_VERTEX);
+
+        System.out.print("탐색 경로 순서: ");
+        while (queue.size() != 0) { // 큐가 비어있지 않다면
+            vertex = queue.poll(); // 큐의 첫번째 값을 반환하고 큐에서 제거
+            System.out.print(vertex + " ");
+
+            visitAdd(list, visited, queue, vertex);
+        }
+    }
+
+    private static void visitAdd(LinkedList<Integer>[] list, boolean[] visited, Queue<Integer> queue, int vertex) {
+        for (int w : list[vertex]) {
+            if (!visited[w]) { // 해당 노드에 방문했는지 확인
+                visited[w] = true;
+                queue.add(w); // 방문하지 않았던 노드를 큐에 추가
+            }
+        }
     }
 
 }
