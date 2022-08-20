@@ -1,5 +1,12 @@
 package sort_algorithm.merge_sort;
 
+import utils.RandomNumberExtract;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static utils.RandomNumberExtract.numberExtract;
+
 /**
  * 병합 정렬 알고리즘
  * 병합 정렬 알고리즘은 비교 기반 정렬 알고리즘
@@ -29,13 +36,62 @@ public class MergeSort {
     private static final int MAX = 50;
     private static final int COLLECTION_SIZE = 10;
 
+    private static final List<Integer> sortList = new ArrayList<>();
+
     /**
      * 지정한 범위 내의 숫자들을 병합정렬 방식으로 정렬한다.
      *
      * @param args - 프로그램 실행 시 외부로부터 받는 값입니다.
      */
     public static void main(String[] args) {
+        List<Integer> numberList = numberExtract(MIN, MAX, COLLECTION_SIZE);
+        sortList.addAll(numberList);
+        System.out.println("병합 정렬 전: " + numberList);
 
+        mergeSort(numberList, 0 , COLLECTION_SIZE - 1);
+
+        System.out.println("병합 정렬 후: " + numberList);
+    }
+
+    private static void mergeSort(List<Integer> list, int left, int right) {
+        if(left < right) {
+            int mid = (left + right) / 2;
+
+            mergeSort(list, left, mid);
+            mergeSort(list, mid + 1, right);
+
+            merge(list, left, mid, right);
+        }
+    }
+
+    private static void merge(List<Integer> list, int left, int mid, int right) {
+        int i = left;
+        int j = mid + 1;
+        int sortIndex = left;
+
+        while (i <= mid && j <= right) {
+            if (list.get(i) < list.get(j)) {
+                sortList.set(sortIndex++, list.get(i++));
+            } else {
+                sortList.set(sortIndex++, list.get(j++));
+            }
+        }
+        sortIndex = sortList(list, mid, right, i, j, sortIndex);
+
+        for(int index = left; index < sortIndex; index++) {
+            list.set(index, sortList.get(index));
+        }
+    }
+
+    private static int sortList(List<Integer> list, int mid, int right, int i, int j, int sortIndex) {
+        while (i <= mid) {
+            sortList.set(sortIndex++, list.get(i++));
+        }
+
+        while (j <= right) {
+            sortList.set(sortIndex++, list.get(j++));
+        }
+        return sortIndex;
     }
 
 }
