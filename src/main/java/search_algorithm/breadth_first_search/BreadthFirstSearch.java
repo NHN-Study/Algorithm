@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static utils.GraphExtract.adjArrayExtract;
 import static utils.GraphExtract.adjListExtract;
 
 /**
@@ -30,12 +31,19 @@ public class BreadthFirstSearch {
      */
     public static void main(String[] args) {
         LinkedList<Integer>[] adjList = adjListExtract(VERTEX_SIZE, EDGE_SIZE);
-        boolean[] visited = new boolean[VERTEX_SIZE + 1]; // 방문 여부를 검사할 배열
+        int[][] adjArray = adjArrayExtract(VERTEX_SIZE, EDGE_SIZE);
+        boolean[] listVisited = new boolean[VERTEX_SIZE + 1]; // 인접 리스트 방문 여부를 검사할 배열
+        boolean[] arrayVisited = new boolean[VERTEX_SIZE + 1]; // 인접 행렬 방문 여부를 검사할 배열
 
-        System.out.println(Arrays.toString(adjList)); // 탐색한 그래프 정보
+        System.out.println("탐색할 인접 리스트 그래프: " + Arrays.toString(adjList));
+        System.out.println("==============");
+        System.out.println("탐색할 인접 행렬 그래프: " + Arrays.deepToString(adjArray));
 
-        System.out.println("BFS - 인접리스트");
-        bfsList(adjList, visited);
+        System.out.println("\nBFS - 인접리스트");
+        bfsList(adjList, listVisited);
+        System.out.println("\n==============");
+        System.out.println("BFS - 인접행렬");
+        bfsArray(adjArray, arrayVisited);
     }
 
     private static void bfsList(LinkedList<Integer>[] list, boolean[] visited) {
@@ -44,20 +52,47 @@ public class BreadthFirstSearch {
         visited[START_VERTEX] = true;
         queue.add(START_VERTEX);
 
-        System.out.print("탐색 경로 순서: ");
+        System.out.print("인접 리스트 탐색 경로 순서: ");
         while (queue.size() != 0) { // 큐가 비어있지 않다면
             vertex = queue.poll(); // 큐의 첫번째 값을 반환하고 큐에서 제거
             System.out.print(vertex + " ");
 
-            visitAdd(list, visited, queue, vertex);
+            listVisitAdd(list, visited, queue, vertex);
         }
     }
 
-    private static void visitAdd(LinkedList<Integer>[] list, boolean[] visited, Queue<Integer> queue, int vertex) {
+    private static void bfsArray(int[][] array, boolean[] visited) {
+        Queue<Integer> queue = new LinkedList<>();
+        int n = array.length - 1;
+        int vertex;
+
+        queue.add(START_VERTEX);
+        visited[START_VERTEX] = true;
+
+        System.out.print("인접 행렬 탐색 경로 순서: ");
+        while (!queue.isEmpty()) {
+            vertex = queue.poll();
+            System.out.print(vertex + " ");
+
+            arrayVisitAdd(n, array, visited, queue, vertex);
+        }
+
+    }
+
+    private static void listVisitAdd(LinkedList<Integer>[] list, boolean[] visited, Queue<Integer> queue, int vertex) {
         for (int w : list[vertex]) {
             if (!visited[w]) { // 해당 노드에 방문했는지 확인
                 visited[w] = true;
                 queue.add(w); // 방문하지 않았던 노드를 큐에 추가
+            }
+        }
+    }
+
+    private static void arrayVisitAdd(int n, int[][] array, boolean[] visited, Queue<Integer> queue, int vertex) {
+        for (int i = 1; i <= n ; i++) {
+            if (array[vertex][i] == 1 && !visited[i]) {
+                queue.add(i);
+                visited[i] = true;
             }
         }
     }
