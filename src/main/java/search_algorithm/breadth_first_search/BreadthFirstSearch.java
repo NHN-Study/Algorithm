@@ -1,5 +1,10 @@
 package search_algorithm.breadth_first_search;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
+import static utils.GraphExtract.adjListExtract;
+
 /**
  * 너비 우선 탐색 (BFS)
  * 너비 우선 탐색의 탐색 방식은 다음과 같다.
@@ -13,8 +18,15 @@ package search_algorithm.breadth_first_search;
  */
 public class BreadthFirstSearch {
 
-    public static void main(String[] args) {
+    private static final int VERTEX_SIZE = 9; // 정점의 개수 (간선보다 항상 -1)
+    private static final int EDGE_SIZE = 10; // 간선의 개수
+    private static final int START_VERTEX = 1; // 탐색을 시작할 정점의 번호
 
+    public static void main(String[] args) {
+        LinkedList<Integer>[] adjList = adjListExtract(VERTEX_SIZE, EDGE_SIZE, START_VERTEX);
+        boolean visited[] = new boolean[VERTEX_SIZE + 1]; // 방문 여부를 검사할 배열
+
+        System.out.println(Arrays.toString(adjList));
     }
 
 }
