@@ -2,7 +2,6 @@ package utils;
 
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -12,7 +11,8 @@ import java.util.Scanner;
  */
 public final class GraphExtract {
 
-    private static final Random rd = new Random();
+    private static final Scanner sc = new Scanner(System.in);
+
 
     private GraphExtract () {}
 
@@ -21,10 +21,9 @@ public final class GraphExtract {
      *
      * @param vertexSize - 탐색을 진행 할 그래프의 정점의 수입니다.
      * @param edgeSize - 탐색을 진행 할 그래프의 간선의 수입니다.
-     * @param startVertex - 탐색을 시작할 정점의 시작 번호입니다.
      * @return 인접 리스트를 반환한다.
      */
-    public static LinkedList<Integer>[] adjListExtract(int vertexSize, int edgeSize, int startVertex) {
+    public static LinkedList<Integer>[] adjListExtract(int vertexSize, int edgeSize) {
         LinkedList<Integer>[] adjList = new LinkedList[vertexSize + 1];
 
         for (int i = 0; i <= vertexSize; i++) {
@@ -36,8 +35,9 @@ public final class GraphExtract {
         v1, v2 각각 간선은 양방향 지원
          */
         for(int i = 0; i < edgeSize; i++) {
-            int v1 = rd.nextInt(edgeSize);
-            int v2 = rd.nextInt(edgeSize);
+            int v1 = i + 1;
+            System.out.println(v1 + "번 노드와 연결될 노드 숫자를 지정하세요");
+            int v2 = sc.nextInt();
 
             adjList[v1].add(v2);
             adjList[v2].add(v1);
