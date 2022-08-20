@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
@@ -30,12 +31,20 @@ public final class GraphExtract {
             adjList[i] = new LinkedList<>();
         }
 
+        /*
+        두 정점 사이에 여러개의 간선이 있을 수 있는 경우 생성
+        v1, v2 각각 간선은 양방향 지원
+         */
         for(int i = 0; i < edgeSize; i++) {
-            int v1 = rd.nextInt(5) + 1;
-            int v2 = rd.nextInt(5) + 1;
+            int v1 = rd.nextInt(edgeSize);
+            int v2 = rd.nextInt(edgeSize);
 
             adjList[v1].add(v2);
             adjList[v2].add(v1);
+        }
+
+        for(int i = 1; i <= vertexSize; i++) {
+            Collections.sort(adjList[i]); // 방문 순서를 위한 오름차순 정렬을 기본
         }
 
         return adjList;
