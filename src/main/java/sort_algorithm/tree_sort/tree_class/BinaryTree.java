@@ -20,11 +20,19 @@ public class BinaryTree {
     Node head;
     int size;
 
+    /**
+     * 생성자 입니다. head 는 비어있습니다.
+     */
     public BinaryTree() {
         head = null;
         size = 0;
     }
 
+    /**
+     * 이진트리에 해당 노드를 삽입합니다.
+     *
+     * @param nd - 넣을 Node 입니다.
+     */
     public void push(Node nd) {
         if (size == 0) {
             head = nd;
@@ -58,9 +66,15 @@ public class BinaryTree {
         size++;
     }
 
+    /**
+     * 지정한 노드를 이진트리에서 제거하고 해당하는 Value 를 반환합니다.
+     *
+     * @param node - 제거할 노드입니다.
+     * @return - 제거한 노드의 값을 반환합니다.
+     */
     public int pop(Node node) {
         if (contain(node)) {
-            Node lastNode = removeLastNode();
+            Node lastNode = this.removeLastNode();
 
             if(head != null){
                 if(isSame(head,node)){
@@ -70,25 +84,7 @@ public class BinaryTree {
                     Queue<Node> q = new LinkedList<>();
                     q.add(head);
 
-                    while(!q.isEmpty()){
-                        Node temp = q.poll();
-
-                        if(temp.getLeft() != null){
-                            if(isSame(temp.getLeft(),node)){
-                                temp.getLeft().setValue(lastNode.getValue());
-                                break;
-                            }else{
-                                q.add(temp.getLeft());
-                            }
-                        }
-
-                        if(temp.getRight() != null){
-                            if(isSame(temp.getRight(),node)){
-                                temp.getRight().setValue(lastNode.getValue());
-                                break;
-                            }
-                        }
-                    }
+                    this.queueCheck(node, lastNode, q);
                 }
             }
             size--;
@@ -97,6 +93,12 @@ public class BinaryTree {
         return 0;
     }
 
+    /**
+     * 이진트리에 해당 노드가 존재하는지 확인합니다.
+     *
+     * @param node - 존재하는지 확인 할 노드의 정보입니다.
+     * @return 노드의 존재 여부를 반환합니다.
+     */
     public boolean contain(Node node) {
         boolean check = false;
 
@@ -107,7 +109,7 @@ public class BinaryTree {
             while (!q.isEmpty()) {
                 Node temp = q.poll();
 
-                if (isSame(temp,node)) {
+                if (this.isSame(temp,node)) {
                     check = true;
                     break;
                 }
@@ -122,6 +124,75 @@ public class BinaryTree {
             }
         }
         return check;
+    }
+
+    /**
+     * 지정한 노드로 BFS 탐색을 실시합니다.
+     *
+     * @param node - BFS 방식으로 탐색할 이진트리의 루트 노드입니다.
+     */
+    public void printBFS(Node node) {
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(node);
+
+        while (!queue.isEmpty()) {
+            Node temp = queue.poll();
+            System.out.println(temp.getValue());
+
+            if (temp.getLeft() != null) {
+                queue.add(temp.getLeft());
+            }
+
+            if (temp.getRight() != null) {
+                queue.add(temp.getRight());
+            }
+        }
+    }
+
+    /**
+     * 지정한 노드로 DFS 탐색을 실시합니다.
+     *
+     * @param node - DFS 방식으로 탐색할 이진트리의 루트 노드입니다.
+     */
+    public void printDFS(Node node) {
+
+        if(node.getLeft() == null && node.getRight() == null){
+            System.out.println(node.getValue());
+        }else{
+            if(node.getLeft() != null){
+                printDFS(node.getLeft());
+            }
+            System.out.println(node.getValue());
+            if(node.getRight() != null){
+                printDFS(node.getRight());
+            }
+        }
+    }
+
+    private boolean isSame(Node a, Node b) {
+        return a.getValue() == b.getValue() &&
+                a.getLeft() == b.getLeft() &&
+                a.getRight() == b.getRight();
+    }
+
+    private void queueCheck(Node node, Node lastNode, Queue<Node> q) {
+        while(!q.isEmpty()){
+            Node temp = q.poll();
+
+            if(temp.getLeft() != null){
+                if(isSame(temp.getLeft(), node)){
+                    temp.getLeft().setValue(lastNode.getValue());
+                    break;
+                }
+                q.add(temp.getLeft());
+            }
+
+            if(temp.getRight() != null && isSame(temp.getRight(), node)){
+                temp.getRight().setValue(lastNode.getValue());
+                break;
+            }
+        }
     }
 
     private Node removeLastNode() {
@@ -156,62 +227,20 @@ public class BinaryTree {
                     if(isSame(temp.getLeft(),last)){
                         temp.setLeft(null);
                         break;
-                    }else{
-                        q.add(temp.getLeft());
                     }
+                    q.add(temp.getLeft());
                 }
 
                 if(temp.getRight() != null){
                     if(isSame(temp.getRight(),last)){
                         temp.setRight(null);
                         break;
-                    }else{
-                        q.add(temp.getRight());
                     }
+                    q.add(temp.getRight());
                 }
             }
         }
         return last;
-    }
-
-    private boolean isSame(Node a, Node b) {
-        return a.getValue() == b.getValue() &&
-                a.getLeft() == b.getLeft() &&
-                a.getRight() == b.getRight();
-    }
-
-    public void printBFS(Node node) {
-
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(node);
-
-        while (!queue.isEmpty()) {
-            Node temp = queue.poll();
-            System.out.println(temp.getValue());
-
-            if (temp.getLeft() != null) {
-                queue.add(temp.getLeft());
-            }
-
-            if (temp.getRight() != null) {
-                queue.add(temp.getRight());
-            }
-        }
-    }
-
-    public void printDFS(Node node) {
-
-        if(node.getLeft() == null && node.getRight() == null){
-            System.out.println(node.getValue());
-        }else{
-            if(node.getLeft() != null){
-                printDFS(node.getLeft());
-            }
-            System.out.println(node.getValue());
-            if(node.getRight() != null){
-                printDFS(node.getRight());
-            }
-        }
     }
 
 }
