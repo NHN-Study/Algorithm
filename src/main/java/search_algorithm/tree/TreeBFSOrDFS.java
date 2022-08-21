@@ -15,7 +15,7 @@ import static utils.RandomNumberExtract.*;
  */
 public class TreeBFSOrDFS {
 
-    private static final int NODE_SIZE = 40;
+    private static final int NODE_SIZE = 5;
     private static final int MIN = 1;
     private static final int MAX = 40;
     private static final List<Integer> NUMBER_LIST = numberExtract(MIN, MAX, NODE_SIZE);
