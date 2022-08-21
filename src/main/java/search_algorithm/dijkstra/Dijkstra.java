@@ -5,6 +5,7 @@ import search_algorithm.dijkstra.dijkstra_class.Node;
 
 import java.util.Objects;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 /**
  * 다익스트라 알고리즘
@@ -32,28 +33,31 @@ import java.util.PriorityQueue;
  *  - 이전 노드까지 계산해둔 최소거리 값이 최소하로 보장 할 수 없음.
  *  - 다 익스트라 알고리즘은 정점을 지날수록 가중치가 증가한다는 전제하에 사용
  *      - 하지만 음의 가중치가 있다면 정점을 지날수록 가중치가 감소할 수 있다는 전제가 깔려 사용 불가
+ *
+ * 예제그래프
+ * @see <a href="https://gomgomkim.tistory.com/19">...</a>
  * @author 박세완
  */
 public class Dijkstra {
-    private static final int VERTEX_SIZE = 6;
+    private static final int VERTEX_SIZE = 6; // 값 변경 시 노드 추가 입력받아야함
     private static final int START_INDEX = 0;
+    private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
         Graph graph = new Graph(VERTEX_SIZE);
 
-        graph.input(0, 1, 7);
-        graph.input(0, 2, 9);
-        graph.input(0, 5, 14);
-        graph.input(1, 2, 10);
-        graph.input(1, 3, 15);
-        graph.input(2, 3, 11);
-        graph.input(2, 5, 2);
-        graph.input(3, 4, 6);
-        graph.input(4, 5, 9);
+        inputDistance(graph); // 간선 길이 입력
 
-        PriorityQueue<Node> queue = new PriorityQueue<>();     // 노드까지의 거리를 저장할 우선순위 큐
-        int[] distance = new int[VERTEX_SIZE];          // 최단 거리를 저장할 변수
-        boolean[] check = new boolean[VERTEX_SIZE];     // 해당 노드를 방문했는지 체크할 변수
+        System.out.println("===========");
+        for(int i=0; i<VERTEX_SIZE; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        System.out.println("===========");
+
+        PriorityQueue<Node> queue = new PriorityQueue<>(); // 노드까지의 거리를 저장할 우선순위 큐
+        int[] distance = new int[VERTEX_SIZE]; // 최단 거리를 저장할 변수
+        boolean[] check = new boolean[VERTEX_SIZE]; // 해당 노드를 방문했는지 체크할 변수
 
         // 거리값 초기화. 무한대를 int 자료형의 최대값으로 표현
         for(int i=0; i<VERTEX_SIZE; ++i){
@@ -115,6 +119,27 @@ public class Dijkstra {
             }
             System.out.println();
         }
+    }
+
+    private static void inputDistance(Graph graph) {
+        System.out.print("0번과 1번 노드 사이의 거리 입력: ");
+        graph.input(0, 1, sc.nextInt());
+        System.out.print("0번과 2번 노드 사이의 거리 입력: ");
+        graph.input(0, 2, sc.nextInt());
+        System.out.print("0번과 5번 노드 사이의 거리 입력: ");
+        graph.input(0, 5, sc.nextInt());
+        System.out.print("1번과 2번 노드 사이의 거리 입력: ");
+        graph.input(1, 2, sc.nextInt());
+        System.out.print("1번과 3번 노드 사이의 거리 입력: ");
+        graph.input(1, 3, sc.nextInt());
+        System.out.print("2번과 3번 노드 사이의 거리 입력: ");
+        graph.input(2, 3, sc.nextInt());
+        System.out.print("2번과 5번 노드 사이의 거리 입력: ");
+        graph.input(2, 5, sc.nextInt());
+        System.out.print("3번과 4번 노드 사이의 거리 입력: ");
+        graph.input(3, 4, sc.nextInt());
+        System.out.print("4번과 5번 노드 사이의 거리 입력: ");
+        graph.input(4, 5, sc.nextInt());
     }
 
 }
