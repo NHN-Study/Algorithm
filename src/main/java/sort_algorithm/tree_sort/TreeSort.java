@@ -48,6 +48,12 @@ public class TreeSort {
         System.out.println("정렬 후: " + NUMBER_LIST);
     }
 
+    /**
+     * 중위순회를 진행합니다.
+     * 중위순회: 왼쪽 하위 트리를 방문 후 root 를 방문, 이후 오른쪽 하위 트리 방문
+     *
+     * @param node - 순회를 진행 할 노드 정보입니다. (최상단 노드)
+     */
     private static void inOrder(Node node) {
         if(Objects.nonNull(node)) {
             inOrder(node.getLeft());
@@ -59,7 +65,7 @@ public class TreeSort {
     /**
      * 이진 탐색 트리를 생성합니다.
      *
-     * @param data - 삽입할 노드의 값입니다.
+     * @param data - 정렬을 진행 할 데이터입니다.
      */
     private static void insertBST(int data) {
         Node newNode = new Node(data);
@@ -80,7 +86,7 @@ public class TreeSort {
     }
 
     private static boolean tempCheck(int data, Node newNode) {
-        if (temp.getValue() > data) {
+        if (temp.getValue() > data) { // 현재 삽입 값보다 노드의 값이 더 클경우
             if (Objects.isNull(temp.getLeft())) {
                 temp.setLeft(newNode);
                 return true;
