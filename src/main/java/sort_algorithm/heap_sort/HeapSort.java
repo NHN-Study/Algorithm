@@ -29,6 +29,7 @@ import static utils.Swap.swap;
  * T(n) = O(nlog₂n)
  *
  */
+
 public class HeapSort {
     public static void main(String[] args) {
         List<Integer> index = RandomNumberExtract.numberExtract(1, 10, 10);
